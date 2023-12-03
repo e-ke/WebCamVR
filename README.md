@@ -1,3 +1,4 @@
-### dev-task01-03
+### dev-task01-05
 
-KlakSpoutの導入
+- MyInputManager 追加
+  - キー入力テスト
