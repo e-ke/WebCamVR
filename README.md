@@ -1,8 +1,4 @@
-### dev-task01-01
+### dev-task01-02
 
-XR Interaction Setup
-- TunnelingVignette: False
-- Left Controller
-  - Ray Interactor以外: False
-- Locomotion System: False
-- Camera Offset.Transform.y = 0
+- 球の追加
+- シングルパスインスタンシングレンダリング対応済の内側表示シェーダー追加
