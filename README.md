@@ -1,8 +1,3 @@
-### dev-task01-01
+### dev-task01-03
 
-XR Interaction Setup
-- TunnelingVignette: False
-- Left Controller
-  - Ray Interactor以外: False
-- Locomotion System: False
-- Camera Offset.Transform.y = 0
+KlakSpoutの導入
