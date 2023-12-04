@@ -1,7 +1,8 @@
 ### dev-task02-01 -> dev-task02-02
 
 MovMoQシーン
-- ライト用画像を追加
-- moQ表示機能 + 上下左右キーへの割り当て
-- 動画表示用Quad作成(videoPlayer, videoController.cs)
-- Application.dataPath\mp4\からの動画読み込み
+- スペースキーで
+  - 動画開始
+  - 動画開始後からのHMDの加速度とかのログをcsv出力するように
+- Assets/にMyFileIOフォルダを用意して、そこに動画とログを入れるように
+  - MyFileIO/のフォルダ内のものをgitignore
