@@ -4,12 +4,10 @@ using UnityEngine.InputSystem;
 public class MoQInput : MonoBehaviour
 {
     // Lights
-    // [SerializeField] private Lights Lights_L;
+    [SerializeField] private Lights Lights_L;
     [SerializeField] private Lights Lights_R;
-    // [SerializeField] private Lights Lights_TR;
-    // [SerializeField] private Lights Lights_TL;
-    // [SerializeField] private Lights Lights_BR;
-    // [SerializeField] private Lights Lights_BL;
+    [SerializeField] private Lights Lights_T;
+    [SerializeField] private Lights Lights_B;
     // Update is called once per frame
     void Update()
     {
@@ -18,11 +16,12 @@ public class MoQInput : MonoBehaviour
         // キーボードが接続されていない場合
         if (current == null) return;
 
-        // aキー
-        if (current.aKey.wasPressedThisFrame)
-        {
-            Lights_R.Run();
-        }
+        // 上下左右キー
+        if (current.upArrowKey.wasPressedThisFrame) Lights_T.Run();
+        if (current.downArrowKey.wasPressedThisFrame) Lights_B.Run();
+        if (current.leftArrowKey.wasPressedThisFrame) Lights_L.Run();
+        if (current.rightArrowKey.wasPressedThisFrame) Lights_R.Run();
+
 
         // テンキーの数字キー
         if (current.numpad0Key.wasPressedThisFrame)

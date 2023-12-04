@@ -11,7 +11,11 @@ public class Lights : MonoBehaviour
     [SerializeField] private float oneStrokeDuration = 0.6f; // 1ストロークの時間
     [SerializeField] private int strokeNum = 5;       // ストローク数
     [SerializeField] private float targetAlpha = 1f;  // 目標透明度
+
+    [SerializeField] private bool mirrorX = false; // Y軸対称の設定
+
     private List<GameObject> spriteObjects = new List<GameObject>(); // 生成されたSpriteのリスト
+    private List<GameObject> mirroredSpriteObjects = new List<GameObject>(); // YZ平面対称のSpriteリスト
     private bool isRunning = false;                   // 実行中フラグ
 
     void Start()
@@ -35,7 +39,21 @@ public class Lights : MonoBehaviour
             // 生成したSpriteをリストに追加
             spriteObjects.Add(newSprite);
         }
+
+        // mirrorYがtrueの場合、すべてのSpriteを複製してY軸対称に配置
+        if (mirrorX)
+        {
+            foreach (GameObject original in spriteObjects.ToArray()) // ToArray()でリストのコピーを作成
+            {
+                GameObject mirroredSprite = Instantiate(original, transform, false);
+                Vector3 mirroredPosition = original.transform.localPosition;
+                mirroredPosition.x = -mirroredPosition.x; // X座標を反転
+                mirroredSprite.transform.localPosition = mirroredPosition;
+                mirroredSpriteObjects.Add(mirroredSprite);
+            }
+        }
     }
+
 
     public void Run()
     {
@@ -50,7 +68,11 @@ public class Lights : MonoBehaviour
             float delay = oneStrokeDuration / (rightNum + 1);
             for (int i = 0; i < rightNum; i++)
             {
-                StartCoroutine(ChangeAlpha(spriteObjects[i].GetComponent<SpriteRenderer>(), oneStrokeDuration / 2, targetAlpha));
+                StartCoroutine(ChangeAlpha(spriteObjects[i].GetComponent<SpriteRenderer>(), oneStrokeDuration / 3, targetAlpha));
+                if (mirrorX && i < mirroredSpriteObjects.Count)
+                {
+                    StartCoroutine(ChangeAlpha(mirroredSpriteObjects[i].GetComponent<SpriteRenderer>(), oneStrokeDuration / 3, targetAlpha));
+                }
                 yield return new WaitForSeconds(delay);
             }
         }
@@ -58,6 +80,7 @@ public class Lights : MonoBehaviour
         Debug.Log("Finished");
     }
 
+    // duration秒かけてSpriteの透明度を変更(小さいほど早く点滅)
     private IEnumerator ChangeAlpha(SpriteRenderer spriteRenderer, float duration, float targetAlpha)
     {
         float initialAlpha = spriteRenderer.color.a;
