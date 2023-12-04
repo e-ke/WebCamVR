@@ -75,4 +75,4 @@ crashlytics-build.properties
 
 # Add
 .vsconfig
-/[Aa]ssets/mp4*
+/[Aa]ssets/MyFileIO/*/*

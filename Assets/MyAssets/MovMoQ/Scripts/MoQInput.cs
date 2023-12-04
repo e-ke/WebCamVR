@@ -4,10 +4,16 @@ using UnityEngine.InputSystem;
 public class MoQInput : MonoBehaviour
 {
     // Lights
-    [SerializeField] private Lights Lights_L;
-    [SerializeField] private Lights Lights_R;
-    [SerializeField] private Lights Lights_T;
-    [SerializeField] private Lights Lights_B;
+    [SerializeField] private Lights _Lights_L;
+    [SerializeField] private Lights _Lights_R;
+    [SerializeField] private Lights _Lights_T;
+    [SerializeField] private Lights _Lights_B;
+    
+    // 実験開始時
+    [SerializeField] private HMDLogger _HMDLogger;
+    [SerializeField] private VideoController _VideoController;
+
+    
     // Update is called once per frame
     void Update()
     {
@@ -17,11 +23,19 @@ public class MoQInput : MonoBehaviour
         if (current == null) return;
 
         // 上下左右キー
-        if (current.upArrowKey.wasPressedThisFrame) Lights_T.Run();
-        if (current.downArrowKey.wasPressedThisFrame) Lights_B.Run();
-        if (current.leftArrowKey.wasPressedThisFrame) Lights_L.Run();
-        if (current.rightArrowKey.wasPressedThisFrame) Lights_R.Run();
+        if (current.upArrowKey.wasPressedThisFrame) _Lights_T.Run();
+        if (current.downArrowKey.wasPressedThisFrame) _Lights_B.Run();
+        if (current.leftArrowKey.wasPressedThisFrame) _Lights_L.Run();
+        if (current.rightArrowKey.wasPressedThisFrame) _Lights_R.Run();
+        
+        // スペースキー
+        if (current.spaceKey.wasPressedThisFrame)
+        {
+            _HMDLogger.StartHMDLog();
+            _VideoController.PlayVideo();
 
+        }
+        
 
         // テンキーの数字キー
         if (current.numpad0Key.wasPressedThisFrame)

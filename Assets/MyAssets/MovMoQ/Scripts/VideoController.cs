@@ -16,7 +16,7 @@ public class VideoController : MonoBehaviour
     {
         if (this.videoPlayer != null)
         {
-            this.videoPlayer.url = Application.dataPath + "/mp4/" + this.videoName;
+            this.videoPlayer.url = Application.dataPath + "/MyFileIO/mp4/" + this.videoName;
         }
     }
 
