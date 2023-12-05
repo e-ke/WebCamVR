@@ -360,7 +360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 762837280}
-  - component: {fileID: 762837281}
+  - component: {fileID: 762837282}
   m_Layer: 0
   m_Name: HMDLogger
   m_TagString: Untagged
@@ -383,7 +383,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &762837281
+--- !u!114 &762837282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -392,9 +392,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 762837279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceedd0901072af743a4bd1362e65b260, type: 3}
+  m_Script: {fileID: 11500000, guid: 1da0ed0899c48b44d8e8a5d67b1313fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ve: {fileID: 1191514366}
 --- !u!1 &803640500
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +500,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gizmosColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &1191514366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191514360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783750eec4c41da428b7651515146d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityAverageFrames: 5
+  angularVelocityAverageFrames: 11
+  estimateOnAwake: 1
 --- !u!1 &1230213146
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +824,7 @@ MonoBehaviour:
   _Lights_R: {fileID: 1699740333}
   _Lights_T: {fileID: 1498506093}
   _Lights_B: {fileID: 2140267805}
-  _HMDLogger: {fileID: 762837281}
+  _HMDLogger: {fileID: 762837282}
   _VideoController: {fileID: 1799127484}
 --- !u!1 &1699740331
 GameObject:

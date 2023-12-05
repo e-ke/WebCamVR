@@ -11,7 +11,7 @@ public class MoQInput : MonoBehaviour
     [SerializeField] private Lights _Lights_B;
     
     // 実験開始時
-    [SerializeField] private HMDLogger _HMDLogger;
+    [SerializeField] private HMDLogger2 _HMDLogger;
     [SerializeField] private VideoController _VideoController;
 
     private string logFilePath;
