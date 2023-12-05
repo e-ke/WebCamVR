@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Movie
-  m_Shader: {fileID: 4800000, guid: 6ebb64ca0dbeeae4c98e6d7fd1c40b9b, type: 3}
+  m_Shader: {fileID: 4800000, guid: fbbf1617f0b502541a2ac4481265030a, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -71,7 +71,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Radius: 3
+    - _Radius: 2.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
