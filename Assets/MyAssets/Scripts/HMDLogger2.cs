@@ -6,26 +6,30 @@ using Valve.VR.InteractionSystem;
 public class HMDLogger2 : MonoBehaviour
 {
     [SerializeField] private VelocityEstimator _ve;
-    private string logDirectory;
-    private string logFilePath;
-    private float logInterval = 1f / 20f; // 20Hzでログを取る
+    private string _logDirectory;
+    private string _logFilePath;
+    private float _logInterval = 1f / 20f; // 20Hzでログを取る
+
+    private StreamWriter streamWriter;
 
     void Start()
     {
         // ログファイルのパスを設定
-        logDirectory = Application.dataPath + "/MyFileIO/logs/";
-        if (!Directory.Exists(logDirectory))
+        _logDirectory = Application.dataPath + "/MyLogs/HMD/";
+        if (!Directory.Exists(_logDirectory))
         {
-            Directory.CreateDirectory(logDirectory);
+            Directory.CreateDirectory(_logDirectory);
         }
     }
 
     // 記録を開始するメソッド（実験開始時に呼び出す）
     public void StartHMDLog()
     {
-        logFilePath = logDirectory + "HMDLog_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
-        // CSVヘッダーを追加
-        File.AppendAllText(logFilePath, "Time,VelX,VelY,VelZ,AccX,AccY,AccZ,AngVelX,AngVelY,AngVelZ\n");
+        _logFilePath = _logDirectory + "HMDLog_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
+        // StreamWriterを初期化し、ヘッダーを書き込む
+        streamWriter = new StreamWriter(_logFilePath, true);
+        streamWriter.WriteLine("Time,VelX,VelY,VelZ,AccX,AccY,AccZ,AngVelX,AngVelY,AngVelZ");
+
         // ログ記録の開始
         StartCoroutine(LogData());
     }
@@ -41,19 +45,21 @@ public class HMDLogger2 : MonoBehaviour
                 Vector3 acceleration = _ve.GetAccelerationEstimate();
                 Vector3 angularVelocity = _ve.GetAngularVelocityEstimate();
 
-                // データをCSV形式でフォーマット
-                string logData = $"{Time.time},{velocity.x},{velocity.y},{velocity.z},{acceleration.x},{acceleration.y},{acceleration.z},{angularVelocity.x},{angularVelocity.y},{angularVelocity.z}\n";
-
-                // CSVファイルにデータを追記
-                File.AppendAllText(logFilePath, logData);
+                // データをCSV形式でフォーマットし、StreamWriterを使用してファイルに書き込む
+                string logData = $"{Time.time},{velocity.x},{velocity.y},{velocity.z},{acceleration.x},{acceleration.y},{acceleration.z},{angularVelocity.x},{angularVelocity.y},{angularVelocity.z}";
+                streamWriter.WriteLine(logData);
             }
             else
             {
                 Debug.Log("VelocityEstimator is not available.");
             }
-
-            // 次のログまで待機
-            yield return new WaitForSeconds(logInterval);
+            yield return new WaitForSeconds(_logInterval);
         }
+    }
+
+    private void OnDestroy()
+    {
+        // StreamWriterを閉じる
+        streamWriter?.Close();
     }
 }

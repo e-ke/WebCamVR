@@ -15,18 +15,19 @@ public class MoQInput : MonoBehaviour
     [SerializeField] private VideoController _VideoController;
 
     private string logFilePath;
+    private StreamWriter streamWriter;
 
     void Start()
     {
         // ログファイルのパスを設定
-        string logDirectory = Application.dataPath + "/MyFileIO/logs/";
-        if (!Directory.Exists(logDirectory))
-        {
-            Directory.CreateDirectory(logDirectory);
-        }
+        string logDirectory = Application.dataPath + "/MyLogs/input/";
+        if (!Directory.Exists(logDirectory)) Directory.CreateDirectory(logDirectory);
+        
         logFilePath = logDirectory + "Input_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
-        // CSVヘッダーを追加
-        File.AppendAllText(logFilePath, "Time,KeyPressed\n");
+
+        // StreamWriterを初期化し、CSVヘッダーを追加
+        streamWriter = new StreamWriter(logFilePath, true);
+        streamWriter.WriteLine("Time,KeyPressed,Event");
     }
 
     // Update is called once per frame
@@ -107,8 +108,15 @@ public class MoQInput : MonoBehaviour
     private void LogKey(string keyName, string eventName)
     {
         // データをCSV形式でフォーマット
-        string logData = $"{Time.time},{keyName},{eventName}\n";
-        // CSVファイルにデータを追記
-        File.AppendAllText(logFilePath, logData);
+        string logData = $"{Time.time},{keyName},{eventName}";
+        // StreamWriterを使用してファイルにデータを書き込む
+        streamWriter.WriteLine(logData);
+    }
+
+    // アプリケーション終了時に呼び出される
+    private void OnDestroy()
+    {
+        // StreamWriterを閉じる
+        streamWriter?.Close();
     }
 }
