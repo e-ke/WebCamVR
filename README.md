@@ -1,5 +1,6 @@
-### dev-task02-03 -> dev-task02-04
+### dev-task02-04 -> dev-task02-05
 
 MovMoQシーン
-- キー入力のログ出力機能追加
+- Canvasのアスペクト比を16:9(w1920,h1080,scale=0.001)に固定
+- moQの配置調整
 - 
