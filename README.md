@@ -1,6 +1,10 @@
-## dev-task02-06a -> dev-task02-07
-ファイル入出力の調整
-- csv書き込み方法をstreamWriter+OnDestroyの方式に
-- 動画は MyFileIO/mp4/じゃなくてStreamingAssets/mp4/で読み込むように
-- StreamingAssets/mp4/ に置いた先頭の動画を再生するように
-- HMDとキー入力ログはMyLogs/に出力されるように
+## dev-task02-07 -> dev-task02-08
+### MISC質問機能追加
+- TMP追加(日本語対応)
+- misc質問追加
+    - デモプレイ と 実験中 のテンキー入力に対応
+    - テンキーの連打入力時のログ無視機能
+    - フェードイン,アウトでの表示,非表示
+    - 30s毎にmiscウィンドウ表示機能
+    - 10分経過時に終了ウィンドウ表示(misc質問の後)
+- Quadでの動画再生削除, rawImageでの動画再生
