@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 1
+  - name: Message
     uniqueID: 4282464535
+    locked: 0
+  - name: End
+    uniqueID: 4074798605
     locked: 0

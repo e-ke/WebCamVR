@@ -14,8 +14,17 @@ public class MoQInput : MonoBehaviour
     [SerializeField] private HMDLogger2 _HMDLogger;
     [SerializeField] private VideoController _VideoController;
 
+    [SerializeField] private MsgWIndow _msgWindow;
+    [SerializeField] private Timer30s _timer30s;
+
     private string logFilePath;
     private StreamWriter streamWriter;
+    private bool isTitle = true;  // 起動時はtrue
+    private bool isDemo = false;  // デモプレイ中はtrue
+    private bool isSend = false;  // 2回目の入力を送信したらtrue
+    // 前回のキー入力
+    private Key _prevKey = Key.None;
+    private Key[] _tenkeys = new Key[] { Key.Numpad0, Key.Numpad1, Key.Numpad2, Key.Numpad3, Key.Numpad4, Key.Numpad5, Key.Numpad6 };
 
     void Start()
     {
@@ -57,52 +66,88 @@ public class MoQInput : MonoBehaviour
              _Lights_R.Run();
         }
 
-
         // スペースキー
-        if (current.spaceKey.wasPressedThisFrame)
+        if (isTitle && current.spaceKey.wasPressedThisFrame)  // 実験開始時一度しか処理が行われないようにする
         {
             LogKey("Space", "start");
             _HMDLogger.StartHMDLog();
             _VideoController.PlayVideo();
+            
+            _msgWindow.HideTitleWindow();
+            _msgWindow.HideMiscWindow();  // スペース押したらMISC(デモ)消す
+            
+            _timer30s.StartTimer();  // 30s間隔でmisc表示する用のタイマー開始
+
+            isTitle = false;
+            isDemo = false;
+            isSend = false;
+            _prevKey = Key.None;
         }
 
+        foreach (Key key in _tenkeys)
+        {
+            if (current[key].wasPressedThisFrame)
+            {
+                if (isTitle)
+                {
+                    // MISC表示中
+                    if (!isDemo && !_msgWindow.GetMiscWinState() && !isSend)
+                    {
+                        _msgWindow.ShowMiscWindow();
+                        LogKey(key.ToString(), "demo");
+                        isDemo = true;
+                    }
+                    else if (isDemo && _msgWindow.GetMiscWinState() && !isSend)
+                    {
+                        if (_prevKey != key)
+                        {
+                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
+                            LogKey(key.ToString(), "key");
+                            _prevKey = key;
+                        }
+                        else
+                        {
+                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
+                            LogKey(key.ToString(), "ans");
+                            _prevKey = Key.None;
+                            isSend = true;
+                        }
+                    }
+                    else if (isDemo && _msgWindow.GetMiscWinState() && isSend)
+                    {
+                        continue;
+                    }
+                    else if (isDemo && !_msgWindow.GetMiscWinState() && isSend)
+                    {
+                        isDemo = false;
+                        isSend = false;
+                        _prevKey = Key.None;
+                    }
+                }
+                else // 実験中
+                {
+                    if (_msgWindow.GetMiscWinState() && !isSend)  // MISC表示中なら
+                    {
+                        if (_prevKey != key) {
+                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
+                            LogKey(key.ToString(), "key");
+                            _prevKey = key;
+                        }
+                        else{
+                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
+                            LogKey(key.ToString(), "ans");
+                            _prevKey = Key.None;
+                            isSend = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-        // テンキーの数字キー
-        if (current.numpad0Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad0", "key");
-            Debug.Log("テンキーの0が押された");
-        }
-        if (current.numpad1Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad1", "key");
-            Debug.Log("テンキーの1が押された");
-        }
-        if (current.numpad2Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad2", "key");
-            Debug.Log("テンキーの2が押された");
-        }
-        if (current.numpad3Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad3", "key");
-            Debug.Log("テンキーの3が押された");
-        }
-        if (current.numpad4Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad4", "key");
-            Debug.Log("テンキーの4が押された");
-        }
-        if (current.numpad5Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad5", "key");
-            Debug.Log("テンキーの5が押された");
-        }
-        if (current.numpad6Key.wasPressedThisFrame)
-        {
-            LogKey("Numpad6", "key");
-            Debug.Log("テンキーの6が押された");
-        }
+    public void SetSendFlag(bool flag)
+    {
+        isSend = flag;
     }
 
     private void LogKey(string keyName, string eventName)
