@@ -84,52 +84,43 @@ public class MoQInput : MonoBehaviour
             _prevKey = Key.None;
         }
 
+        // デモプレイ開始
+        if(current.dKey.wasPressedThisFrame){
+            _msgWindow.ShowMiscWindow();
+            LogKey("D", "demo");
+            isSend = false;
+        }
+
         foreach (Key key in _tenkeys)
         {
             if (current[key].wasPressedThisFrame)
             {
+                Debug.Log(isDemo.ToString() + _msgWindow.GetMiscWinState().ToString() + isSend.ToString());
                 if (isTitle)
                 {
-                    // MISC表示中
-                    if (!isDemo && !_msgWindow.GetMiscWinState() && !isSend)
-                    {
-                        _msgWindow.ShowMiscWindow();
-                        LogKey(key.ToString(), "demo");
-                        isDemo = true;
-                    }
-                    // 1度demo入力した後
-                    else if (!isDemo && !_msgWindow.GetMiscWinState() && isSend)
-                    {
-                        _msgWindow.ShowMiscWindow();
-                        LogKey(key.ToString(), "demo");
-                        isDemo = true;
-                    }
-
-                    else if (isDemo && _msgWindow.GetMiscWinState() && !isSend)
-                    {
-                        if (_prevKey != key)
-                        {
-                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
-                            LogKey(key.ToString(), "key");
-                            _prevKey = key;
-                        }
-                        else
-                        {
-                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
-                            LogKey(key.ToString(), "ans");
-                            _prevKey = Key.None;
-                            isSend = true;
-                        }
-                    }
-                    else if (isDemo && _msgWindow.GetMiscWinState() && isSend)
-                    {
+                    // misc表示されてなかったら表示
+                    if (!_msgWindow.GetMiscWinState())
+                     {
                         continue;
                     }
-                    else if (isDemo && !_msgWindow.GetMiscWinState() && isSend)
+                    else // misc表示中
                     {
-                        isDemo = false;
-                        isSend = false;
-                        _prevKey = Key.None;
+                        if (_msgWindow.GetMiscWinState() && !isSend)  // MISC表示中なら
+                        {
+                            if (_prevKey != key)
+                            {
+                                _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
+                                LogKey(key.ToString(), "key");
+                                _prevKey = key;
+                            }
+                            else
+                            {
+                                _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
+                                LogKey(key.ToString(), "ans");
+                                _prevKey = Key.None;
+                                isSend = true;
+                            }
+                        }
                     }
                 }
                 else // 実験中
