@@ -45,8 +45,10 @@ public class HMDLogger2 : MonoBehaviour
                 Vector3 acceleration = _ve.GetAccelerationEstimate();
                 Vector3 angularVelocity = _ve.GetAngularVelocityEstimate();
 
+                // 現在時刻を取得し、指定された形式でフォーマット
+                string currentTime = System.DateTime.Now.ToString("HH:mm:ss.fff");
                 // データをCSV形式でフォーマットし、StreamWriterを使用してファイルに書き込む
-                string logData = $"{Time.time},{velocity.x},{velocity.y},{velocity.z},{acceleration.x},{acceleration.y},{acceleration.z},{angularVelocity.x},{angularVelocity.y},{angularVelocity.z}";
+                string logData = $"{currentTime},{velocity.x},{velocity.y},{velocity.z},{acceleration.x},{acceleration.y},{acceleration.z},{angularVelocity.x},{angularVelocity.y},{angularVelocity.z}";
                 streamWriter.WriteLine(logData);
             }
             else

@@ -152,8 +152,11 @@ public class MoQInput : MonoBehaviour
 
     private void LogKey(string keyName, string eventName)
     {
+        // 現在時刻を取得し、指定された形式でフォーマット
+        string currentTime = System.DateTime.Now.ToString("HH:mm:ss.fff");
         // データをCSV形式でフォーマット
-        string logData = $"{Time.time},{keyName},{eventName}";
+        string logData = $"{currentTime},{keyName},{eventName}";
+
         // StreamWriterを使用してファイルにデータを書き込む
         streamWriter.WriteLine(logData);
     }
