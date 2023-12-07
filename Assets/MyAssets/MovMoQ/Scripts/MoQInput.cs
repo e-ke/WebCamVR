@@ -1,4 +1,5 @@
 using System.IO;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,7 +21,7 @@ public class MoQInput : MonoBehaviour
     private string logFilePath;
     private StreamWriter streamWriter;
     private bool isTitle = true;  // 起動時はtrue
-    private bool isDemo = false;  // デモプレイ中はtrue
+    // private bool isDemo = false;  // デモプレイ中はtrue
     private bool isSend = false;  // 2回目の入力を送信したらtrue
     // 前回のキー入力
     private Key _prevKey = Key.None;
@@ -32,7 +33,7 @@ public class MoQInput : MonoBehaviour
         string logDirectory = Application.dataPath + "/MyLogs/input/";
         if (!Directory.Exists(logDirectory)) Directory.CreateDirectory(logDirectory);
         
-        logFilePath = logDirectory + "Input_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
+        logFilePath = logDirectory + "Input_" + System.DateTime.Now.ToString("yyMMdd_HHmmss") + ".csv";
 
         // StreamWriterを初期化し、CSVヘッダーを追加
         streamWriter = new StreamWriter(logFilePath, true);
@@ -70,7 +71,7 @@ public class MoQInput : MonoBehaviour
         if (isTitle && current.spaceKey.wasPressedThisFrame)  // 実験開始時一度しか処理が行われないようにする
         {
             LogKey("Space", "start");
-            _HMDLogger.StartHMDLog();
+            _HMDLogger?.StartHMDLog();
             _VideoController.PlayVideo();
             
             _msgWindow.HideTitleWindow();
@@ -79,23 +80,25 @@ public class MoQInput : MonoBehaviour
             _timer30s.StartTimer();  // 30s間隔でmisc表示する用のタイマー開始
 
             isTitle = false;
-            isDemo = false;
+            // isDemo = false;
             isSend = false;
             _prevKey = Key.None;
         }
 
         // デモプレイ開始
         if(current.dKey.wasPressedThisFrame){
-            _msgWindow.ShowMiscWindow();
-            LogKey("D", "demo");
-            isSend = false;
+            if(isTitle){
+                _msgWindow.ShowMiscWindow();
+                LogKey("D", "demo");
+                isSend = false;
+            }
         }
 
         foreach (Key key in _tenkeys)
         {
             if (current[key].wasPressedThisFrame)
             {
-                Debug.Log(isDemo.ToString() + _msgWindow.GetMiscWinState().ToString() + isSend.ToString());
+                // Debug.Log(isDemo.ToString() + _msgWindow.GetMiscWinState().ToString() + isSend.ToString());
                 if (isTitle)
                 {
                     // misc表示されてなかったら表示
@@ -107,16 +110,17 @@ public class MoQInput : MonoBehaviour
                     {
                         if (_msgWindow.GetMiscWinState() && !isSend)  // MISC表示中なら
                         {
+                            string keyNum = key.ToString().Substring(6);
                             if (_prevKey != key)
                             {
-                                _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
-                                LogKey(key.ToString(), "key");
+                                _msgWindow.SetMiscPin(int.Parse(keyNum));
+                                LogKey(keyNum, "d_key");
                                 _prevKey = key;
                             }
                             else
                             {
-                                _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
-                                LogKey(key.ToString(), "ans");
+                                _msgWindow.SetMiscPin(int.Parse(keyNum));
+                                LogKey(keyNum, "d_ans");
                                 _prevKey = Key.None;
                                 isSend = true;
                             }
@@ -125,16 +129,17 @@ public class MoQInput : MonoBehaviour
                 }
                 else // 実験中
                 {
+                    string keyNum = key.ToString().Substring(6);
                     if (_msgWindow.GetMiscWinState() && !isSend)  // MISC表示中なら
                     {
                         if (_prevKey != key) {
-                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
-                            LogKey(key.ToString(), "key");
+                            _msgWindow.SetMiscPin(int.Parse(keyNum));
+                            LogKey(keyNum, "key");
                             _prevKey = key;
                         }
                         else{
-                            _msgWindow.SetMiscPin(int.Parse(key.ToString().Substring(6)));
-                            LogKey(key.ToString(), "ans");
+                            _msgWindow.SetMiscPin(int.Parse(keyNum));
+                            LogKey(keyNum, "ans");
                             _prevKey = Key.None;
                             isSend = true;
                         }
@@ -158,6 +163,7 @@ public class MoQInput : MonoBehaviour
 
         // StreamWriterを使用してファイルにデータを書き込む
         streamWriter.WriteLine(logData);
+        streamWriter.Flush();  // キー入力の頻度は低いからすぐ書き込む
     }
 
     // アプリケーション終了時に呼び出される
