@@ -30,9 +30,11 @@ public class HMDLogger2 : MonoBehaviour
         streamWriter = new StreamWriter(_logFilePath, true);
         streamWriter.WriteLine("Time,VelX,VelY,VelZ,AccX,AccY,AccZ,AngVelX,AngVelY,AngVelZ");
         
-        _ve.BeginEstimatingVelocity();
-        // ログ記録の開始
-        StartCoroutine(LogData());
+        if(_ve.enabled)
+            Debug.Log("VelocityEstimator is enabled.");
+            _ve.BeginEstimatingVelocity();
+            // ログ記録の開始
+            StartCoroutine(LogData());
     }
 
     private IEnumerator LogData()
