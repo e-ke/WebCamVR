@@ -2366,7 +2366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityAverageFrames: 5
   angularVelocityAverageFrames: 11
-  estimateOnAwake: 1
+  estimateOnAwake: 0
 --- !u!1 &1230213146
 GameObject:
   m_ObjectHideFlags: 0

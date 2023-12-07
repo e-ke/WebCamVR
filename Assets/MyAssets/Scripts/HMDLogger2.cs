@@ -29,7 +29,8 @@ public class HMDLogger2 : MonoBehaviour
         // StreamWriterを初期化し、ヘッダーを書き込む
         streamWriter = new StreamWriter(_logFilePath, true);
         streamWriter.WriteLine("Time,VelX,VelY,VelZ,AccX,AccY,AccZ,AngVelX,AngVelY,AngVelZ");
-
+        
+        _ve.BeginEstimatingVelocity();
         // ログ記録の開始
         StartCoroutine(LogData());
     }

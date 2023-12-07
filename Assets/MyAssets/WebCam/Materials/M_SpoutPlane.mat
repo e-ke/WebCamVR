@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_WebCamPlane
+  m_Name: M_SpoutPlane
   m_Shader: {fileID: 4800000, guid: fbbf1617f0b502541a2ac4481265030a, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
