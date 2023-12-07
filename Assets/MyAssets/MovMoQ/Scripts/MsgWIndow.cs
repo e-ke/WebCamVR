@@ -51,7 +51,7 @@ public class MsgWIndow : MonoBehaviour
         isFading = true; // フェード開始
         Debug.Log("MISC表示");
         _miscHeader.text = "回答を選択してください。";
-        FadeIn(miscCanvasGp, 0f, 1f, () =>
+        FadeIn(miscCanvasGp, 0f, 0.5f, () =>
         {
             isAppearMiscWindow = true;
             isFading = false; // フェード終了
@@ -62,7 +62,7 @@ public class MsgWIndow : MonoBehaviour
     {
         if (!isAppearMiscWindow || isFading) return; // 既に非表示かフェード中なら何もしない
         isFading = true; // フェード開始
-        FadeOut(miscCanvasGp, 1.5f, 1f, () =>
+        FadeOut(miscCanvasGp, 1.5f, 0.5f, () =>
         {
             isAppearMiscWindow = false;
             HideAllPins();  //次のmisc表示時にピンが表示されないようにする
@@ -109,7 +109,6 @@ public class MsgWIndow : MonoBehaviour
     {
         FadeIn(endWindow, 0f, 1f, () =>
         {
-            
             Debug.Log("実験終了");
         });
     }

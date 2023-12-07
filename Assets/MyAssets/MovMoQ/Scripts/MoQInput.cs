@@ -97,6 +97,14 @@ public class MoQInput : MonoBehaviour
                         LogKey(key.ToString(), "demo");
                         isDemo = true;
                     }
+                    // 1度demo入力した後
+                    else if (!isDemo && !_msgWindow.GetMiscWinState() && isSend)
+                    {
+                        _msgWindow.ShowMiscWindow();
+                        LogKey(key.ToString(), "demo");
+                        isDemo = true;
+                    }
+
                     else if (isDemo && _msgWindow.GetMiscWinState() && !isSend)
                     {
                         if (_prevKey != key)
