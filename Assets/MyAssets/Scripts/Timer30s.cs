@@ -6,6 +6,7 @@ public class Timer30s : MonoBehaviour
     private Coroutine timerCoroutine;
     [SerializeField] private MsgWIndow _msgWindow;
     [SerializeField] private MoQInput _moQInput;
+    [SerializeField] private SimpleUDPServ _simpleUDPServ;
 
     private int _count = 0;
 
@@ -41,7 +42,17 @@ public class Timer30s : MonoBehaviour
             return;
         }
         Debug.Log("30秒経過");
-        _moQInput.SetSendFlag(false);
+        // アクティブなら
+        if (_moQInput != null && _moQInput.isActiveAndEnabled)
+        {
+            _moQInput.SetSendFlag(false);
+        }
+        else
+        {
+            _simpleUDPServ?.SetIsSend(false);
+        }
+        // _moQInput.SetSendFlag(false);
+        // _simpleUDPServ.SetIsSend(false);
         _msgWindow.ShowMiscWindow();
         _count++;
     }
