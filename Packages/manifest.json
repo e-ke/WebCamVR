@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.htc.upm.wave.openxr": "1.0.5",
     "com.unity.collab-proxy": "1.15.17",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.14",
@@ -56,6 +57,13 @@
       "dependencies": {
         "jp.keijiro.klak.spout": "2.0.3"
       }
+    },
+    {
+      "name": "Vive",
+      "url": "https://npm-registry.vive.com/",
+      "scopes": [
+        "com.htc.upm"
+      ]
     }
   ]
 }
