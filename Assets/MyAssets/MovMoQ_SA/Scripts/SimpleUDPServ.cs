@@ -17,6 +17,9 @@ public class SimpleUDPServ : MonoBehaviour
     [SerializeField] private Lights _Lights_B;
 
     [SerializeField] private MsgWIndow _msgWindow;
+
+    public Text ipText;
+
     private String _prevKey = "";
     private bool isDemo = true;
     private bool isSend = false;
@@ -76,6 +79,10 @@ public class SimpleUDPServ : MonoBehaviour
                 _csvWriter.LogKey(receivedMessage, "moQ");
                 _Lights_R.Run();
             }
+            if(receivedMessage == "I"){
+                ipText.text = "";
+            }
+
             // 0 ~ 6
             if (int.TryParse(receivedMessage, out int number) && number >= 0 && number <= 6)
             {
