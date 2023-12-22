@@ -17,7 +17,12 @@ public class Lights : MonoBehaviour
     private List<GameObject> spriteObjects = new List<GameObject>(); // 生成されたSpriteのリスト
     private List<GameObject> mirroredSpriteObjects = new List<GameObject>(); // YZ平面対称のSpriteリスト
     private bool isRunning = false;                   // 実行中フラグ
+    public bool IsRunning()
+    {
+        return isRunning;
+    }
 
+    
     void Start()
     {
         CreateSprites();

@@ -25,7 +25,7 @@ public class Timer30s : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(30); // 30秒待機
+            yield return new WaitForSeconds(60); // 30秒待機
             ExecutePeriodicMethod(); // 特定のメソッドを実行
         }
     }
@@ -33,7 +33,7 @@ public class Timer30s : MonoBehaviour
     // 定期的に実行されるメソッド
     private void ExecutePeriodicMethod()
     {
-        Debug.Log("30秒経過");
+        // Debug.Log("30秒経過");
         // アクティブなら
         if (_moQInput != null && _moQInput.isActiveAndEnabled)
         {
@@ -49,7 +49,7 @@ public class Timer30s : MonoBehaviour
         _count++;
         
         // 10分経過で終了
-        if (_count == 20)
+        if (_count == 10)
         {
             Debug.Log("10分経過");
             _msgWindow.ShowEndWindow();

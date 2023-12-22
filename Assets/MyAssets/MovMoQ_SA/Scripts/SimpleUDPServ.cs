@@ -63,21 +63,29 @@ public class SimpleUDPServ : MonoBehaviour
                 receivedMessageText.text = receivedMessage; // UIテキストを更新
             }
 
-            if(receivedMessage == "T"){
-                _csvWriter.LogKey(receivedMessage, "moQ");
-                _Lights_T.Run();
-            }
+            // if(receivedMessage == "T"){
+            //     if(!_Lights_T.IsRunning()){
+            //         _csvWriter.LogKey(receivedMessage, "moQ");
+            //         _Lights_T.Run();
+            //     }
+            // }
             if(receivedMessage == "B"){
-                _csvWriter.LogKey(receivedMessage, "moQ");
-                _Lights_B.Run();
+                if(!_Lights_B.IsRunning()){
+                    _csvWriter.LogKey(receivedMessage, "moQ");
+                    _Lights_B.Run();
+                }
             }
-            if(receivedMessage == "L"){
-                _csvWriter.LogKey(receivedMessage, "moQ");
-                _Lights_L.Run();
-            }
+            // if(receivedMessage == "L"){
+            //     if(!_Lights_L.IsRunning()){
+            //         _csvWriter.LogKey(receivedMessage, "moQ");
+            //         _Lights_L.Run();
+            //     }
+            // }
             if(receivedMessage == "R"){
-                _csvWriter.LogKey(receivedMessage, "moQ");
-                _Lights_R.Run();
+                if(!_Lights_R.IsRunning()){
+                    _csvWriter.LogKey(receivedMessage, "moQ");
+                    _Lights_R.Run();
+                }
             }
             if(receivedMessage == "I"){
                 ipText.text = "";
